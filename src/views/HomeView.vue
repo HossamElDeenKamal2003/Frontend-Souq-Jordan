@@ -33,8 +33,14 @@
 
           <!-- Product Info -->
           <div :class="['product-info', isDark ? 'dark-text' : '']">
-            <h3>{{ product.title}}</h3>
+            <h3 :class="{ 'seen-title': product.isSeen }">{{ product.title }}</h3>
             <p>{{ product.description }}</p>
+
+            <!-- Seen and Favourite Indicators -->
+            <div class="indicators">
+              <span v-if="product.isSeen" class="seen-indicator">👁️ Seen</span>
+              <span v-if="product.isFavourite" class="favourite-indicator">❤️ Favourite</span>
+            </div>
           </div>
         </div>
       </div>
@@ -200,6 +206,7 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   background-color: white; /* Or grey if needed */
+  overflow: hidden; /* Hide overflow */
 }
 
 .product-card:hover {
@@ -219,18 +226,49 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden; /* Hide overflow */
 }
 
 .product-info h3 {
   margin: 0;
   font-size: 16px;
-  color: #009688; /* Match text color */
+  color: #009688; /* Default title color */
+  white-space: nowrap; /* Prevent title from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+/* Make title red if product is seen */
+.product-info h3.seen-title {
+  color: red;
 }
 
 .product-info p {
   margin: 5px 0 0;
   font-size: 14px;
   color: #666;
+  display: -webkit-box; /* Enable multiline text truncation */
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical; /* Vertical orientation */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.indicators {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.seen-indicator,
+.favourite-indicator {
+  font-size: 14px;
+  color: #666;
+}
+
+.dark-text .seen-indicator,
+.dark-text .favourite-indicator {
+  color: white; /* Ensure text is white in dark mode */
 }
 
 .white-card {
@@ -256,7 +294,6 @@ export default {
 }
 
 /* Dark Theme Text */
-.dark-text h3,
 .dark-text p {
   color: white !important; /* Ensure text is white in dark mode */
 }
