@@ -221,4 +221,8 @@ export default {
   color: #fff;
   border-color: #666;
 }
+
+.car-types-container{
+  width: 80%;
+}
 </style>

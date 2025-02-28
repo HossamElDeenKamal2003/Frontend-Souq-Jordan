@@ -50,6 +50,10 @@ nav {
   }
 }
 
+span{
+  color: green;
+}
+
 /* Dark Mode Styles */
 .dark-mode {
   background-color: #222;
